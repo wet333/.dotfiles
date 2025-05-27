@@ -12,13 +12,13 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
 nvm install 22
 
 # Verify the Node.js version:
-node -v # Should print "v22.14.0".
-nvm current # Should print "v22.14.0".
+node -v
+nvm current
 
-# Descarga e instala pnpm:
+# Download and install pnpm:
 corepack enable pnpm
 
-# Verifica versión de pnpm:
+# Verify pnpm version:
 pnpm -v
 
 echo "Node.js is ready to code!"
