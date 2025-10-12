@@ -1,29 +1,43 @@
-# Text-mutation utility functions - Prefix (textm_...)
+txt_date_dmy() {
+  date '+%d-%m-%Y'
+}
 
-textm_to_upper() {
+txt_date_ymd() {
+  date '+%Y-%m-%d'
+}
+
+txt_time_hms() {
+  date '+%H:%M:%S'
+}
+
+txt_time_hm() {
+  date '+%H:%M'
+}
+
+txt_random() {
+  cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
+}
+
+txt_upper() {
     echo "$1" | tr '[:lower:]' '[:upper:]'
 }
 
-textm_to_lower() {
+txt_lower() {
     echo "$1" | tr '[:upper:]' '[:lower:]'
 }
 
-
-# A function that capitalizes the first letter of a string
-textm_capitalize() {
-    # if string is empty, return instructions
+txt_cap() {
     if [[ -z "$1" ]]; then
-        echo "Usage: textm_capitalize <string>"
+        echo "Usage: txt_cap <string>"
         return 1
     fi
 
-    textm_char_to_upper_by_index "$1" "$(_get_first_alphanumeric_index "$1")"
+    txt_upper_at "$1" "$(_txt_first_alpha "$1")"
 }
 
-textm_char_to_upper_by_index(){
-    # if string or index is empty, return instructions
+txt_upper_at(){
     if [[ -z "$1" || -z "$2" ]]; then
-        echo "Usage: textm_char_to_upper_by_index <string> <index>"
+        echo "Usage: txt_upper_at <string> <index>"
         return 1
     fi
 
@@ -38,8 +52,7 @@ textm_char_to_upper_by_index(){
     echo "$part1$char$part3"
 }
 
-# A function that returns the index number of the first alphanumeric character in a string (including spaces)
-__get_first_alphanumeric_index() {
+_txt_first_alpha() {
      local input="$1"
      local length=${#input}
 

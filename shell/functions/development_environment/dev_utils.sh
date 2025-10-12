@@ -1,5 +1,5 @@
 # Link current directory to Ghost themes folder
-ghost-link() {
+create-ghost-theme-symlink() {
     if [ -z "$1" ]; then
         echo "Usage: ghost-link <theme-name>"
         echo "Example: ghost-link my-theme"
