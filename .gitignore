@@ -1,5 +1,12 @@
-.bashrc
+# Editor / IDE
 .idea
+.vscode
 
+# Local / generated
 logs
 temp
+*.bak
+.custom_env_vars
+
+# Global config with real values (template .env.example is tracked)
+.env
