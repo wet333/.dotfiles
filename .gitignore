@@ -10,3 +10,6 @@ temp
 
 # Global config with real values (template .env.example is tracked)
 .env
+
+# AI
+CLAUDE.md
