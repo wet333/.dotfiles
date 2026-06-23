@@ -20,12 +20,16 @@ SDKMAN_DIR="$HOME/.sdkman"
 # Usage: install_or_skip <candidate> | Example: install_or_skip maven
 install_or_skip() {
     local candidate="$1"
+    # SDKMAN's internal scripts reference unset positional params (e.g. $2 for
+    # an omitted version).
+    set +u
     if sdk current "$candidate" >/dev/null 2>&1; then
         info "$candidate already installed via SDKMAN; skipping."
     else
         log "Installing $candidate via SDKMAN..."
         sdk install "$candidate"
     fi
+    set -u
 }
 
 # --- SDKMAN Prerequisites ----------------------------------------------------
