@@ -23,6 +23,25 @@ error()   { printf '%s[ERR ]%s %s\n' "$_c_red"    "$_c_reset" "$*" >&2; }
 # have <cmd> - true if the command exists on PATH.
 have() { command -v "$1" >/dev/null 2>&1; }
 
+# --- Privilege escalation ----------------------------------------------------
+
+# Authenticate for sudo, and maintain sudo until the end of script.
+# Usage: ensure_sudo
+ensure_sudo() {
+    have sudo || return 0
+
+    sudo -v
+
+    while true; do
+        sudo -n true
+        sleep 60
+        kill -0 "$$" 2>/dev/null || exit
+    done &                  # Starts new background process
+
+    SUDO_KEEPALIVE_PID=$!   # Saves sudo process id
+    trap 'kill "$SUDO_KEEPALIVE_PID" 2>/dev/null' EXIT
+}
+
 # --- Configuration -----------------------------------------------------------
 
 # Export KEY=value pairs from an env file (default $DOTFILES/.env) so child processes inherit them.
@@ -31,7 +50,6 @@ load_env() {
     local f="${1:-${DOTFILES:-.}/.env}"
     [ -f "$f" ] || return 0
     set -a
-    # shellcheck disable=SC1090
     . "$f"
     set +a
 }

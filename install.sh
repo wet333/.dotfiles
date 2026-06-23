@@ -48,6 +48,7 @@ main() {
 
     detect_os
     os_summary
+    ensure_sudo
     prepare_env
 
     run_setup
