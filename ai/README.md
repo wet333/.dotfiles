@@ -100,7 +100,7 @@ each ClaudeCode server via `claude mcp add-json --scope user`.
 
 ### Configured MCPs (current)
 
-The repo ships with these ten servers enabled by default. To narrow or drop
+The repo ships with these servers enabled by default. To narrow or drop
 any of them, edit the JSON files and re-run the installer.
 
 | Server | Transport | Auth | Notes |
