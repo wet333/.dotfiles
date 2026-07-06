@@ -126,6 +126,21 @@ OpenCode if you want the server to actually work:
   `postgresql://readonly:secret@localhost:5432/mydb`. If unset, the server
   registers but every call fails with a connection error.
 
+### LSP / code intelligence
+
+OpenCode activa todos los servidores de lenguaje built-in por la línea
+`"lsp": {}` en `opencode.jsonc`. No se necesita config por lenguaje:
+cada servidor arranca solo cuando OpenCode abre un archivo con la
+extensión soportada y el binario (o auto-installer) está disponible.
+Cero costo cuando no hay archivos del lenguaje en uso.
+
+ClaudeCode no tiene un equivalente directo en `settings.json` (no
+existe un bloque `lsp`). El code intelligence en ClaudeCode se hace
+vía plugins de la marketplace `claude-plugins-official` (`typescript-lsp`,
+`pyright-lsp`, `gopls-lsp`, etc.) y requiere un `/plugin install` por
+dev por la fricción del trust prompt — por eso este repo no los
+gestiona.
+
 ### Narrowing `filesystem`
 
 The filesystem MCP refuses to start without at least one absolute directory

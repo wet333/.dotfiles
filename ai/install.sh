@@ -73,6 +73,11 @@ log "Copying tracked config files into place..."
 copy_replace "$CONFIG/opencode/opencode.jsonc" "$OPENCODE_DIR/opencode.jsonc"
 copy_replace "$CONFIG/claude/settings.json"     "$CLAUDE_DIR/settings.json"
 
+# Global rules (OpenCode reads ~/.config/opencode/AGENTS.md; ClaudeCode reads
+# ~/.claude/CLAUDE.md). Same content for both — single source, two destinations.
+copy_replace "$CONFIG/shared/system-rules.md"   "$OPENCODE_DIR/AGENTS.md"
+copy_replace "$CONFIG/shared/system-rules.md"   "$CLAUDE_DIR/CLAUDE.md"
+
 # --- Directory trees ---------------------------------------------------------
 
 log "Mirroring tracked directory trees into place..."
