@@ -2,7 +2,6 @@
   "mcpServers": {
     "context7":            { "type": "http",  "url": "https://mcp.context7.com/mcp" },
     "gh_grep":             { "type": "http",  "url": "https://mcp.grep.app" },
-    "github":              { "type": "http",  "url": "https://api.githubcopilot.com/mcp/" },
     "duckduckgo":          { "type": "stdio", "command": "npx", "args": ["-y", "@ericthered926/duckduckgo-mcp-server"] },
     "playwright":          { "type": "stdio", "command": "npx", "args": ["-y", "@playwright/mcp@latest"] },
     "memory":              { "type": "stdio", "command": "npx", "args": ["-y", "@modelcontextprotocol/server-memory"] },

@@ -107,7 +107,6 @@ any of them, edit the JSON files and re-run the installer.
 |---|---|---|---|
 | `context7` | remote HTTP | none (optional key) | Library docs lookup |
 | `gh_grep` | remote HTTP | none | GitHub code search via grep.app |
-| `github` | remote HTTP | OAuth on first use | PR/issue/repo operations; needs login |
 | `duckduckgo` | local stdio (`npx`) | none | Web/news search via DDG; no API key, conservative rate limits |
 | `playwright` | local stdio (`npx`) | none | Browser automation; downloads Chromium on first use |
 | `memory` | local stdio (`npx`) | none | Persistent knowledge graph |
