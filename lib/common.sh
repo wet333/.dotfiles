@@ -109,3 +109,82 @@ ensure_block() {
         printf '%s\n' "$close"
     } >> "$file"
 }
+
+# Copy src to dest iff the contents differ (byte-for-byte). If dest already has
+# the same bytes, do nothing so mtimes are preserved. If dest differs, the old
+# dest is moved aside to <dest>.bak before the new content is laid down.
+# Usage: copy_replace <src> <dest> | Example: copy_replace "$DOTFILES/ai/config/opencode/opencode.jsonc" "$HOME/.config/opencode/opencode.jsonc"
+copy_replace() {
+    local src="$1" dest="$2"
+
+    if [ ! -e "$src" ]; then
+        error "copy_replace: source does not exist: $src"
+        return 1
+    fi
+
+    mkdir -p -- "$(dirname -- "$dest")"
+
+    if [ -f "$dest" ] && cmp -s -- "$src" "$dest" 2>/dev/null; then
+        info "copy_replace: unchanged: $dest"
+        return 0
+    fi
+
+    if [ -e "$dest" ]; then
+        local backup="${dest}.bak"
+        warning "copy_replace: backing up $dest -> $backup"
+        mv -f -- "$dest" "$backup"
+    fi
+
+    cp -f -- "$src" "$dest"
+    success "copy_replace: copied $src -> $dest"
+}
+
+# Mirror a directory tree: every regular file under <src-dir> lands as an
+# identical copy under <dest-dir>; any file in <dest-dir> that has no
+# counterpart in <src-dir> is moved to <dest-dir>/<path>.bak before being
+# removed. Idempotent: re-running is a no-op once the trees match.
+# Usage: mirror_dir <src-dir> <dest-dir> | Example: mirror_dir "$DOTFILES/ai/config/shared/skills" "$HOME/.claude/skills"
+mirror_dir() {
+    local src="$1" dest="$2"
+
+    if [ ! -d "$src" ]; then
+        error "mirror_dir: source is not a directory: $src"
+        return 1
+    fi
+
+    mkdir -p -- "$dest"
+
+    local kept=0 added=0 removed=0
+    local src_re="${src}/" dest_re="${dest}/" f rel target backup
+
+    while IFS= read -r f; do
+        [ -n "$f" ] || continue
+        rel="${f#"$src_re"}"
+        target="${dest_re}${rel}"
+        if [ -f "$target" ] && cmp -s -- "$f" "$target" 2>/dev/null; then
+            kept=$((kept + 1))
+            continue
+        fi
+        mkdir -p -- "$(dirname -- "$target")"
+        if [ -e "$target" ]; then
+            backup="${target}.bak"
+            warning "mirror_dir: backing up $target -> $backup"
+            mv -f -- "$target" "$backup"
+        fi
+        cp -f -- "$f" "$target"
+        added=$((added + 1))
+    done < <(find "$src" -type f)
+
+    while IFS= read -r f; do
+        [ -n "$f" ] || continue
+        rel="${f#"$dest_re"}"
+        if [ ! -e "${src_re}${rel}" ]; then
+            backup="${f}.bak"
+            warning "mirror_dir: backing up extra $f -> $backup"
+            mv -f -- "$f" "$backup"
+            removed=$((removed + 1))
+        fi
+    done < <(find "$dest" -type f)
+
+    info "mirror_dir: $kept kept, $added added/updated, $removed removed (backed up) - $dest"
+}

@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "context7":            { "type": "http",  "url": "https://mcp.context7.com/mcp" },
+    "gh_grep":             { "type": "http",  "url": "https://mcp.grep.app" },
+    "duckduckgo":          { "type": "stdio", "command": "npx", "args": ["-y", "@ericthered926/duckduckgo-mcp-server"] },
+    "playwright":          { "type": "stdio", "command": "npx", "args": ["-y", "@playwright/mcp@latest"] },
+    "memory":              { "type": "stdio", "command": "npx", "args": ["-y", "@modelcontextprotocol/server-memory"] },
+    "sequential-thinking": { "type": "stdio", "command": "npx", "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"] },
+    "filesystem":          { "type": "stdio", "command": "npx", "args": ["-y", "@modelcontextprotocol/server-filesystem", "${HOME}"] },
+    "everything":          { "type": "stdio", "command": "npx", "args": ["-y", "@modelcontextprotocol/server-everything"] },
+    "postgres":            { "type": "stdio", "command": "npx", "args": ["-y", "@yawlabs/postgres-mcp@latest"],
+                             "env": { "DATABASE_URL": "${DATABASE_URL:-}" } }
+  }
+}
