@@ -51,7 +51,7 @@ The repo has three kinds of things: a couple of entry-point scripts at the top, 
 - `os.sh` — detects the distro and manages system services.
 - `pkgmanager.sh` — installs/updates packages without caring whether it's `dnf` or `apt`.
 
-**`setup/`** — the numbered steps (`00`…`08`), each idempotent and runnable on its own.
+**`setup/`** — the numbered steps (`00`…`10`), each idempotent and runnable on its own.
 
 **Config & shell:**
 
@@ -68,6 +68,7 @@ The repo has three kinds of things: a couple of entry-point scripts at the top, 
 - **`05-java.sh` / `06-node.sh`** — Java (SDKMAN) and Node.js (fnm) toolchains.
 - **`07-c.sh`** — C/C++ toolchain.
 - **`08-shell.sh`** — wires `shell/bash/init.sh` into `~/.bashrc` via `ensure_block`.
+- **`10-python.sh`** — Python toolchain via uv (latest stable CPython). Installs into `~/.local/bin` and does not edit `~/.bashrc`.
 
 **Add a step:** create `setup/NN-name.sh`, source `lib/common.sh` + `lib/os.sh`, call `detect_os`
 (and `load_env` if needed), use the API, keep it idempotent. `install.sh` picks it up automatically.

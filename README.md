@@ -32,7 +32,7 @@ first run copies `.env.example` → `.env`; edit it with your values and re-run.
 - SSH key + server
 - Git identity and sane defaults
 - Docker CE (engine + compose)
-- Java, Node.js and C/C++ toolchains
+- Java, Node.js, Python and C/C++ toolchains
 - Shell config: git-aware prompt, aliases, functions (bash today, zsh planned)
 
 ## More
